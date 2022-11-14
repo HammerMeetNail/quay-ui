@@ -50,6 +50,19 @@ import {useRefreshRepoList} from 'src/hooks/UseRefreshPage';
 import {fetchUser, IUserResource} from 'src/resources/UserResource';
 import {LoadingPage} from 'src/components/LoadingPage';
 
+import {useFlag} from '@unleash/proxy-client-react';
+
+// Check if test feature is enabled
+const ABComponent = () => {
+  const enabled = useFlag('ab');
+
+  if (enabled) {
+    console.log('A/B is enabled');
+  } else {
+    console.log('A/B is not enabled');
+  }
+};
+
 function getReponameFromURL(pathname: string): string {
   return pathname.includes('organizations') ? pathname.split('/')[2] : null;
 }
@@ -58,6 +71,9 @@ interface RepoListHeaderProps {
   shouldRender: boolean;
 }
 function RepoListHeader(props: RepoListHeaderProps) {
+  // Trigger feature flag check
+  ABComponent();
+
   if (!props.shouldRender) {
     return null;
   }

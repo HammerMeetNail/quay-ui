@@ -50,12 +50,28 @@ import {refreshPageState} from 'src/atoms/OrganizationListState';
 import {fetchQuayConfig} from 'src/resources/QuayConfig';
 import RepoCount from 'src/components/Table/RepoCount';
 
+import {useFlag} from '@unleash/proxy-client-react';
+
+// Check if test feature is enabled
+const TestComponent = () => {
+  const enabled = useFlag('test');
+
+  if (enabled) {
+    console.log('Feature is enabled');
+  } else {
+    console.log('Feature is not enabled');
+  }
+};
+
 export interface OrganizationsTableItem {
   name: string;
   isUser: boolean;
 }
 
 function OrgListHeader() {
+  // Trigger feature flag check
+  TestComponent();
+
   return (
     <>
       <QuayBreadcrumb />
